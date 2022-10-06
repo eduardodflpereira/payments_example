@@ -5,6 +5,7 @@
     <tr>
       <th>Value</th>
       <th>Number</th>
+      <th>Status</th>
 
       <th></th>
     </tr>
@@ -14,6 +15,7 @@
     <tr>
       <td><%= invoice.value %></td>
       <td><%= invoice.number %></td>
+      <td><%= invoice.status %></td>
 
       <td>
         <span><%= link "Show", to: Routes.invoice_path(@conn, :show, invoice) %></span>

@@ -5,6 +5,7 @@ defmodule PaymentsExample.Billing.Invoice do
   schema "invoices" do
     field :number, :integer
     field :value, :integer
+    field :status, :string, default: "created"
 
     timestamps()
   end
@@ -13,6 +14,7 @@ defmodule PaymentsExample.Billing.Invoice do
   def changeset(invoice, attrs) do
     invoice
     |> cast(attrs, [:value, :number])
-    |> validate_required([:value, :number])
+    |> validate_required([:value, :number, :status])
+    |> unique_constraint([:number])
   end
 end

@@ -12,6 +12,11 @@
     <%= @invoice.number %>
   </li>
 
+  <li>
+    <strong>Status:</strong>
+    <%= @invoice.status %>
+  </li>
+
 </ul>
 
 <span><%= link "Edit", to: Routes.invoice_path(@conn, :edit, @invoice) %></span> |
