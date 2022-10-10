@@ -25,6 +25,10 @@ defmodule PaymentsExampleWeb.Router do
     get "/stripe-success", InvoiceController, :stripe_success
     get "/stripe-cancel", InvoiceController, :stripe_cancel
 
+    scope "/stripe-webhooks" do
+      post "/", StripeWebhookController, :webhook
+    end
+
   end
 
   # Other scopes may use custom stacks.

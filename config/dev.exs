@@ -75,3 +75,4 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 config :stripity_stripe, api_key: System.get_env("STRIPE_API_KEY")
+config :stripity_stripe, signing_secret: System.get_env("STRIPE_SECRET_KEY")

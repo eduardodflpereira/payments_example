@@ -17,5 +17,10 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
-# payments
-# payments
+
+# Description
+
+  * Simple payments example
+  * Requires setting up a Stripe account to test.
+  * To test webhooks install https://ngrok.com/
+

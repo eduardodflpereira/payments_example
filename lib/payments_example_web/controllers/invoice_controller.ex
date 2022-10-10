@@ -66,9 +66,9 @@ defmodule PaymentsExampleWeb.InvoiceController do
 
     case CreateCheckout.call(invoice) do
       {:ok, %{url: payment_url} = _stripe_result} ->
-
         render(conn, "checkout.html", payment_url: payment_url)
 
+      # TODO checkout error
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", invoice: invoice, changeset: changeset)
     end

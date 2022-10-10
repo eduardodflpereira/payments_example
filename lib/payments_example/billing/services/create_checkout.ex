@@ -1,18 +1,20 @@
 defmodule PaymentsExample.Billing.Service.CreateCheckout do
   @moduledoc """
-  Simple service to create a stripe payment intent and checkout
+  Simple service to create a stripe checkout
   """
   def call(invoice) do
-    base_url = PaymentsExampleWeb.Endpoint.url()
+    PaymentsExampleWeb.Endpoint.url()
+    |> generate_checkout_data(invoice)
+    |> Stripe.Session.create()
+  end
 
-    checkout_data =
-      %{line_items:
-        [%{price_data: %{currency: "eur", product_data: %{name: "Invoice #{invoice.number}"}, unit_amount: invoice.value}, quantity: 1}],
-         mode: "payment",
-         success_url: base_url <> "/stripe-success",
-         cancel_url: base_url <> "/stripe-cancel"
+  defp generate_checkout_data(base_url, invoice) do
+    %{line_items:
+      [%{price_data: %{currency: "eur", product_data: %{name: "Invoice #{invoice.number}"}, unit_amount: invoice.value}, quantity: 1}],
+        mode: "payment",
+        success_url: base_url <> "/stripe-success",
+        cancel_url: base_url <> "/stripe-cancel",
+        metadata: %{invoice_id: invoice.id}
     }
-
-    Stripe.Session.create(checkout_data)
   end
 end
