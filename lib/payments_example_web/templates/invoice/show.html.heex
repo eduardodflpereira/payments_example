@@ -19,5 +19,6 @@
 
 </ul>
 
+<span><%= link "Pay Invoice", to: Routes.invoice_path(@conn, :checkout, @invoice) %></span> |
 <span><%= link "Edit", to: Routes.invoice_path(@conn, :edit, @invoice) %></span> |
 <span><%= link "Back", to: Routes.invoice_path(@conn, :index) %></span>

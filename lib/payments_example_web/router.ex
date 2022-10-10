@@ -6,7 +6,7 @@ defmodule PaymentsExampleWeb.Router do
     plug :fetch_session
     plug :fetch_live_flash
     plug :put_root_layout, {PaymentsExampleWeb.LayoutView, :root}
-    plug :protect_from_forgery
+
     plug :put_secure_browser_headers
   end
 
@@ -20,6 +20,11 @@ defmodule PaymentsExampleWeb.Router do
     get "/", PageController, :index
 
     resources "/invoices", InvoiceController
+    get "/invoices/:id/checkout", InvoiceController, :checkout
+
+    get "/stripe-success", InvoiceController, :stripe_success
+    get "/stripe-cancel", InvoiceController, :stripe_cancel
+
   end
 
   # Other scopes may use custom stacks.

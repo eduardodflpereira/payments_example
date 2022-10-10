@@ -3,6 +3,7 @@ defmodule PaymentsExampleWeb.InvoiceController do
 
   alias PaymentsExample.Billing
   alias PaymentsExample.Billing.Invoice
+  alias PaymentsExample.Billing.Service.CreateCheckout
 
   def index(conn, _params) do
     invoices = Billing.list_invoices()
@@ -58,5 +59,26 @@ defmodule PaymentsExampleWeb.InvoiceController do
     conn
     |> put_flash(:info, "Invoice deleted successfully.")
     |> redirect(to: Routes.invoice_path(conn, :index))
+  end
+
+  def checkout(conn, %{"id" => id}) do
+    invoice = Billing.get_invoice!(id)
+
+    case CreateCheckout.call(invoice) do
+      {:ok, %{url: payment_url} = _stripe_result} ->
+
+        render(conn, "checkout.html", payment_url: payment_url)
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "edit.html", invoice: invoice, changeset: changeset)
+    end
+  end
+
+  def stripe_success(conn, _params) do
+    render(conn, "success.html")
+  end
+
+  def stripe_cancel(conn, _params) do
+    render(conn, "cancel.html")
   end
 end

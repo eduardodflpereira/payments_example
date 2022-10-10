@@ -49,7 +49,8 @@ defmodule PaymentsExample.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:phx_gen_solid, "~> 0.1", only: [:dev], runtime: false}
+      {:phx_gen_solid, "~> 0.1", only: [:dev], runtime: false},
+      {:stripity_stripe, "~> 2.0"}
     ]
   end
 
