@@ -9,12 +9,21 @@ defmodule PaymentsExample.Billing.Service.CreateCheckout do
   end
 
   defp generate_checkout_data(base_url, invoice) do
-    %{line_items:
-      [%{price_data: %{currency: "eur", product_data: %{name: "Invoice #{invoice.number}"}, unit_amount: invoice.value}, quantity: 1}],
-        mode: "payment",
-        success_url: base_url <> "/stripe-success",
-        cancel_url: base_url <> "/stripe-cancel",
-        metadata: %{invoice_id: invoice.id}
+    %{
+      line_items: [
+        %{
+          price_data: %{
+            currency: "eur",
+            product_data: %{name: "Invoice #{invoice.number}"},
+            unit_amount: invoice.value
+          },
+          quantity: 1
+        }
+      ],
+      mode: "payment",
+      success_url: base_url <> "/stripe-success",
+      cancel_url: base_url <> "/stripe-cancel",
+      metadata: %{invoice_id: invoice.id}
     }
   end
 end

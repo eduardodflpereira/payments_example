@@ -1,5 +1,6 @@
 defmodule PaymentsExampleWeb.StripeWebhookController do
   use PaymentsExampleWeb, :controller
+
   @moduledoc """
   Actions for all endpoints that related Stripe Webhooks
   """
@@ -8,9 +9,9 @@ defmodule PaymentsExampleWeb.StripeWebhookController do
 
   def webhook(%Plug.Conn{assigns: %{stripe_event: stripe_event}} = conn, _params) do
     case handle_event(stripe_event) do
-      {:ok, _}        -> handle_success(conn)
+      {:ok, _} -> handle_success(conn)
       {:error, error} -> handle_error(conn, error)
-      _               -> handle_error(conn, "error")
+      _ -> handle_error(conn, "error")
     end
   end
 
@@ -28,17 +29,19 @@ defmodule PaymentsExampleWeb.StripeWebhookController do
 
   def handle_event(%{type: "checkout.session.completed", data: %{object: stripe_object}}) do
     with %Stripe.Session{metadata: %{"invoice_id" => invoice_id}} = stripe_object,
-      invoice = Billing.get_invoice!(invoice_id) do
-        Billing.update_invoice(invoice, %{status: "paid"})
+         invoice = Billing.get_invoice!(invoice_id) do
+      Billing.update_invoice(invoice, %{status: "paid"})
     end
+
     {:ok, "success"}
   end
 
   def handle_event(%{data: %{object: stripe_object}}) do
     with %Stripe.Session{metadata: %{"invoice_id" => invoice_id}} = stripe_object,
-      invoice = Billing.get_invoice!(invoice_id) do
-        Billing.update_invoice(invoice, %{status: "payment failed"})
+         invoice = Billing.get_invoice!(invoice_id) do
+      Billing.update_invoice(invoice, %{status: "payment failed"})
     end
+
     {:error, "Payment Failed"}
   end
 end

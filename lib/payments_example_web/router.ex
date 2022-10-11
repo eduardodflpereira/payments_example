@@ -28,7 +28,6 @@ defmodule PaymentsExampleWeb.Router do
     scope "/stripe-webhooks" do
       post "/", StripeWebhookController, :webhook
     end
-
   end
 
   # Other scopes may use custom stacks.
