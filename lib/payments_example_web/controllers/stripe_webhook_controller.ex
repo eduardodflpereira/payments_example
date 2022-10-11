@@ -26,7 +26,7 @@ defmodule PaymentsExampleWeb.StripeWebhookController do
     |> send_resp(422, error)
   end
 
-  def handle_event(%{type: "checkout.session.completed", data: %{object: stripe_object}}) do
+  defp handle_event(%{type: "checkout.session.completed", data: %{object: stripe_object}}) do
     with %Stripe.Session{metadata: %{"invoice_id" => invoice_id}} <- stripe_object,
          invoice <- Billing.get_invoice!(invoice_id) do
       Billing.update_invoice(invoice, %{status: "paid"})
@@ -35,7 +35,7 @@ defmodule PaymentsExampleWeb.StripeWebhookController do
     {:ok, "success"}
   end
 
-  def handle_event(%{data: %{object: stripe_object}}) do
+  defp handle_event(%{data: %{object: stripe_object}}) do
     with %Stripe.Session{metadata: %{"invoice_id" => invoice_id}} <- stripe_object,
          invoice <- Billing.get_invoice!(invoice_id) do
       Billing.update_invoice(invoice, %{status: "payment failed"})
