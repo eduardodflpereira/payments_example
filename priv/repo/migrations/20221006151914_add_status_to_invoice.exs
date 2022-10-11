@@ -4,8 +4,8 @@ defmodule PaymentsExample.Repo.Migrations.AddStatusToInvoice do
   def change do
     alter table(:invoices) do
       add :status, :text, default: "created", null: false
-      modify :value, :integer, null: false
-      modify :number, :integer, null: false
+      modify :value, :integer, from: :integer, null: false
+      modify :number, :integer, from: :integer, null: false
     end
   end
 end
