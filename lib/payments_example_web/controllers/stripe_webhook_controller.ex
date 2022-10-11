@@ -1,9 +1,8 @@
 defmodule PaymentsExampleWeb.StripeWebhookController do
-  use PaymentsExampleWeb, :controller
-
-  @moduledoc """
+    @moduledoc """
   Actions for all endpoints that related Stripe Webhooks
   """
+  use PaymentsExampleWeb, :controller
 
   alias PaymentsExample.Billing
 
@@ -28,8 +27,8 @@ defmodule PaymentsExampleWeb.StripeWebhookController do
   end
 
   def handle_event(%{type: "checkout.session.completed", data: %{object: stripe_object}}) do
-    with %Stripe.Session{metadata: %{"invoice_id" => invoice_id}} = stripe_object,
-         invoice = Billing.get_invoice!(invoice_id) do
+    with %Stripe.Session{metadata: %{"invoice_id" => invoice_id}} <- stripe_object,
+         invoice <- Billing.get_invoice!(invoice_id) do
       Billing.update_invoice(invoice, %{status: "paid"})
     end
 
@@ -37,8 +36,8 @@ defmodule PaymentsExampleWeb.StripeWebhookController do
   end
 
   def handle_event(%{data: %{object: stripe_object}}) do
-    with %Stripe.Session{metadata: %{"invoice_id" => invoice_id}} = stripe_object,
-         invoice = Billing.get_invoice!(invoice_id) do
+    with %Stripe.Session{metadata: %{"invoice_id" => invoice_id}} <- stripe_object,
+         invoice <- Billing.get_invoice!(invoice_id) do
       Billing.update_invoice(invoice, %{status: "payment failed"})
     end
 
